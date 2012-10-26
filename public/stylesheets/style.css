@@ -376,3 +376,26 @@ input[type="text"].input-validation-error, input[type="password"].input-validati
 .validation-summary-valid {
   display: none;
 }
+/* member page
+----------------------------------------------------------*/
+.menu-left{
+    float: left;
+    width: 700px;
+}
+.menu-right{
+    overflow: hidden;
+}
+.menu-content-wrapper {
+  margin: 0 auto;
+  max-width: 960px;
+}
+.featured .menu-content-wrapper {
+  background-color: #fff;
+  background-image: -ms-linear-gradient(left, #fff 0%, #a5d472 100%);
+  background-image: -o-linear-gradient(left, #fff 0%, #a5d472 100%);
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(0, #8cc84b), color-stop(1, #a5d472));
+  background-image: -webkit-linear-gradient(left, #fff 0%, #a5d472 100%);
+  background-image: linear-gradient(left, #fff 0%, #a5d472 100%);
+  color: #0e2c42;
+  padding: 20px 40px 30px 40px;
+}
