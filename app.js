@@ -9,7 +9,7 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
-var app = express();
+var app = express.createServer();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
