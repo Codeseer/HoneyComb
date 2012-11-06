@@ -1,6 +1,6 @@
 {
   "name": "HoneyComb",
-  "version": "0.1.0-1",
+  "version": "0.1.0-4",
   "description": "A file sharing website for SPSU students and faculty.",
   "contributors": [
     {
@@ -8,7 +8,7 @@
       "email": "ScottAdams@ScottAdams.me"
     }
   ],
-  "main": "./server.js",
+  "main": "./app.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/Codeseer/HoneyComb.git"
@@ -32,6 +32,6 @@
   },
   "subdomain": "HoneyComb",
   "scripts": {
-    "start": "server.js"
+    "start": "app.js"
   }
 }

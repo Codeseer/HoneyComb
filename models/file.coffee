@@ -26,9 +26,12 @@ exports.upload = (user, file, cb) ->
     'chunk_size': 1024*256 #256KB chunk size
   gs.writeFile file.path, (err, gs) ->
     if !err
-      user.files.push file.filename
-      user.save (err, doc) ->
-        cb err
+      if user.files.indexOf(file.filename) == -1
+        user.files.push file.filename
+        user.save (err, doc) ->
+          cb err
+      else
+        cb null
     else
       cb err
 
@@ -36,3 +39,9 @@ exports.read = (username, filename, cb) ->
   gs = new GridStore db, username+'/'+filename, 'r'
   gs.open (err, gs) ->
     gs.read cb
+
+exports.remove = (username, filename, cb) ->
+  gs = new GridStore db, username+'/'+filename, 'r'
+  console.log username+'/'+filename
+  gs.open (err, gs) ->
+    gs.unlink cb

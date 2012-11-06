@@ -16,5 +16,10 @@ block content
 
     section(class="main-content")
         - if(typeof(user) != 'undefined')
+            ul#files
             each file in user.files
-                .file=file
+                li.file
+                    form(action="/files/"+user.username+"/"+file, method="post")
+                        a(href="/files/"+user.username+"/"+file)=file
+                        input(type="hidden", name="_method", value="delete")
+                        input(type="submit", value="Delete")

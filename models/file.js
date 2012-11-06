@@ -43,10 +43,14 @@
     });
     return gs.writeFile(file.path, function(err, gs) {
       if (!err) {
-        user.files.push(file.filename);
-        return user.save(function(err, doc) {
-          return cb(err);
-        });
+        if (user.files.indexOf(file.filename) === -1) {
+          user.files.push(file.filename);
+          return user.save(function(err, doc) {
+            return cb(err);
+          });
+        } else {
+          return cb(null);
+        }
       } else {
         return cb(err);
       }
@@ -58,6 +62,15 @@
     gs = new GridStore(db, username + '/' + filename, 'r');
     return gs.open(function(err, gs) {
       return gs.read(cb);
+    });
+  };
+
+  exports.remove = function(username, filename, cb) {
+    var gs;
+    gs = new GridStore(db, username + '/' + filename, 'r');
+    console.log(username + '/' + filename);
+    return gs.open(function(err, gs) {
+      return gs.unlink(cb);
     });
   };
 

@@ -6,7 +6,7 @@ module.exports = function(app) {
 
     // user account page
     app.get('/account', function(req, res) {
-      if(req.user){        
+      if(req.user){
         res.render('account/account', { user: req.user });
       } else {
         res.redirect('/login');

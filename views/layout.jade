@@ -26,7 +26,8 @@ html
                     a(href="/register") Register
             
             -else
-                li Welcome !{user.username}!
+                li Welcome 
+                  a(href="/account")!{user.username}
                 li 
                     a(href="/logout") Logout
           nav
@@ -35,6 +36,9 @@ html
                 a(href="/") Home
               li
                 a(href="/about") About
+              -if( typeof(user) != 'undefined')
+                li
+                  a(href="/account") Account
     #body
       block content
       
