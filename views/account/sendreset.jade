@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    section(class="main-content")
+        hgroup(class="title")
+            h2 Forgot your HoneyComb password?
+            
+        - if (typeof(message) != 'undefined')
+            ul#errors
+                li.error= message
+
+        form(action="/resetRequest", method="post")
+            fieldset
+                legend Password Reset Request Form
+                ol
+                    li(class="username")
+                        label(for="username") SPSU username
+                        input(type="text", name="username")
+
+                input(type="submit", value="Reset")

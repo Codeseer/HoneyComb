@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+    section(class="main-content")
+        hgroup(class="title")
+            h2 Please reset your HoneyComb password.
+            
+        - if (typeof(message) != 'undefined')
+            ul#errors
+                li.error= message
+
+        form(action="/reset", method="post")
+            fieldset
+                legend New Password Form
+                ol
+                    li(class="password")
+                        label(for="password") New Password:
+                        input(type="password", name="password")
+                input(type="hidden", name="uvid", value=uvid)
+                input(type="submit", value="Reset")
