@@ -1,39 +1,25 @@
+extends layout
 
-section(class="featured")
-  div(class="content-wrapper")
-      hgroup(class="title")
-          //h1=title 
-          h2 Honeycomb file upload tool
-      p All SPSU students, faculties and staffs are welcomed. Start upload files and share with your friends! For more information about SPSU, visit <a href='http://www.spsu.edu'>SPSU website</a>
+block content
+    - if (typeof(message) != 'undefined')
+            ul#errors
+                li.error= message
 
-section(class="main-content")
-  h3 You can do the following:
-  ol(class="round")
-      li(class="one")
-          h5 Upload the file and access them from anywhere.
-          p Upload any types of files and access them from another computer.
-      li(class="two")
-          h5 Move files in a folder
-          p Create a folder to organize many files you uploaded, so your page will look clean and easy to locate.
-      li(class="three")
-          h5 Share your files to public
-          p Create a public folder and share.
-//
-  section(class="features")
-      section(class="feature")
-          img(src="/images/world-map.png", alt="")
-          h3 Access from anywhere around the world
-          p SPSU students around the world can have accounts and access to this page.
-          
-      section(class="feature")
-          img(src="findHosting", alt="")
-          h3 NPM Gallery
-          p 
-            |NPM is a WebMatrix extension that makes it easy to install and update libraries. Visit
-            a(href="http://npmjs.org") npmjs.org
-            |for more information.
+    section(class="featured")
+        div(class="content-wrapper")
+            hgroup(class="title")
+                h2 Honeycomb file upload tool
+                p All SPSU students, faculties and staffs are welcomed. Start upload files and share with your friends! For more information about SPSU, visit <a href='http://www.spsu.edu'>SPSU website</a>   
 
-      section(class="feature")
-          img(src="/images/findHosting.png", alt="")
-          h3 Host it on Azure
-          p You can easily find a web hosting company that offers the right mix of features and price for your applications. Visit <a href="http://microsoft.com/web/hosting" title="Microsoft/Web Website">Microsoft.com/web</a> to explore offerings from many providers.
+    section(class="main-content")
+        h3 You can do the following:
+        ol(class="round")
+            li(class="one")
+                h5 Upload the file and access them from anywhere.
+                p Upload any types of files and access them from another computer.
+            li(class="two")
+                h5 Move files in a folder
+                p Create a folder to organize many files you uploaded, so your page will look clean and easy to locate.
+            li(class="three")
+                h5 Share your files to public
+                p Create a public folder and share.

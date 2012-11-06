@@ -1,19 +1,16 @@
 !!! 5
 html
   head
-    - if (typeof(title) == 'undefined')
-        title HoneyComb
-    - else 
-        title= title
+    title HoneyComb
     
     // include default stylesheets and any view stylesheets
-    link(rel='stylesheet', href=base + '/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
     
     // include default scripts and any view scripts
-    script(src=base + '/javascripts/jquery-1.7.min.js')
-    script(src=base + '/javascripts/modernizr.js')
+    script(src='/javascripts/jquery-1.7.min.js')
+    script(src='/javascripts/modernizr.js')
     
-  body   
+  body
     header
       div(class='content-wrapper')
         div(class="float-left")
@@ -22,15 +19,14 @@ html
         div(class="float-right")
           section#login
             ul
-            -if(!everyauth.loggedIn)
+            -if( typeof(user) == 'undefined')
                 li
                     a(href="/login") Log in
                 li
                     a(href="/register") Register
             
             -else
-                -if(everyauth.password)
-                    li Welcome !{everyauth.user.email}!
+                li Welcome !{user.username}!
                 li 
                     a(href="/logout") Logout
           nav
@@ -39,7 +35,8 @@ html
                 a(href="/") Home
               li
                 a(href="/about") About
-    #body!= body
+    #body
+      block content
       
     footer
       div(class="content-wrapper")

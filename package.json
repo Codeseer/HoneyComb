@@ -1,38 +1,36 @@
 {
-  "name": "WebMatrixExpressStarter",
-  "version": "0.1.0",
-  "author": "The WebMatrix Team <webmatrix@microsoft.com>",
-  "description": "A complete boilerplate for building node applications on Windows Azure (or wherever)",
-  "contributors": [ 
+  "name": "HoneyComb",
+  "version": "0.1.0-1",
+  "description": "A file sharing website for SPSU students and faculty.",
+  "contributors": [
     {
-      "name": "Justin Beckwith",
-      "email": "justbe@microsoft.com"
-    } 
-  ],  
+      "name": "Scott Adams",
+      "email": "ScottAdams@ScottAdams.me"
+    }
+  ],
   "main": "./server.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MicrosoftWebMatrix/ExpressStarter.git"
+    "url": "https://github.com/Codeseer/HoneyComb.git"
   },
-  "keywords": [
-    "azure",
-    "boilerplate",
-    "express"
-  ],
-  "dependencies" : {
-    "everyauth": "*",
-    "nconf": "*",
-    "express": "3.0.0",
+  "dependencies": {
+    "express": "3.0.1",
     "jade": "*",
     "less": "*",
-    "socket.io": "*",
-    "connect": "*",
-    "recaptcha": "*",
-    "nodemailer": "*"
+    "nodemailer": "0.3.30",
+    "mongodb": "1.1.11",
+    "mongoose": "3.3.1",
+    "passport": "0.1.15",
+    "passport-local": "0.1.6",
+    "connect": "2.6.2",
+    "path": "*"
   },
   "noAnalyze": true,
-  "license": "Apache",
   "engines": {
     "node": ">=0.6.14"
+  },
+  "subdomain": "HoneyComb",
+  "scripts": {
+    "start": "server.js"
   }
 }

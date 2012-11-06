@@ -1,2 +1,19 @@
-// Jade
-p account!
+extends ../layout
+
+block content
+    section(class="featured")
+        div(class="menu-content-wrapper")
+            div(class="menu-left") 
+                form(action="/files", method="post", enctype="multipart/form-data")
+                    label(for="uploadFile") Choose a file: 
+                    input(type="file", name="uploadFile", id="uploadFile")
+                    input(type="submit") Upload
+            div(class="menu-right")
+                <a href="#"><img src="/images/Folder_Add.png"></a>
+                <a href='#'><img src="/images/Folder_Network.png"></a>
+                
+                <a href='#'><img src="/images/admin.png"></a>
+
+    section(class="main-content")
+        each file in user.files
+            .file=file.name
