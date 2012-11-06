@@ -34,4 +34,4 @@ module.exports = (app) ->
             if !err
               res.redirect('/account');
     else
-      res.end("Dude, you don't have access to "+req.user.username+"'s files.");
+      res.end("Dude, you don't have access to "+req.params.username+"'s files.");
