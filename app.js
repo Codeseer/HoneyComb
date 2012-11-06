@@ -13,7 +13,8 @@ var express = require('express')
   , passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy
   , mongoose = require('mongoose')
-  , User = require('./models/user').Model;
+  , User = require('./models/user').Model
+  , flash = require('connect-flash');
 /**
 Setup the GridFS database connection
 **/
@@ -35,6 +36,7 @@ app.configure(function() {
     app.use(express.methodOverride());
     app.use(express.cookieParser());
     app.use(express.session({ secret: '28FFB9ABAB6B0961799D52E171D2E06352B9A0BB8679708A42C98B20AC6680A6' }));
+    app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());  
     app.use(app.router);
@@ -46,9 +48,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(username, done) {
-  User.findOne(username, function(err, user) {
-    done(err, user);
-  });
+  User.findOne({'username': username}).exec(done);
 });
 
 passport.use('local', new LocalStrategy(function(username, password, done) {

@@ -23,7 +23,8 @@
     "passport": "0.1.15",
     "passport-local": "0.1.6",
     "connect": "2.6.2",
-    "path": "*"
+    "path": "*",
+    "connect-flash": "*"
   },
   "noAnalyze": true,
   "engines": {

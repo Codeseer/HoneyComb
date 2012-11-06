@@ -15,5 +15,6 @@ block content
                 <a href='#'><img src="/images/admin.png"></a>
 
     section(class="main-content")
-        each file in user.files
-            .file=file.name
+        - if(typeof(user) != 'undefined')
+            each file in user.files
+                .file=file

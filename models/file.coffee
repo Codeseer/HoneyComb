@@ -19,22 +19,20 @@ exports.setupFiles = () ->
       console.log err
 
 exports.upload = (user, file, cb) ->
-  fileid = new ObjectID()
-  gs = new GridStore db, fileid, 'w',
+  gs = new GridStore db, user.username+'/'+file.filename, 'w',
     'content_type': file.type
     'metadata':
       author: user.username
     'chunk_size': 1024*256 #256KB chunk size
   gs.writeFile file.path, (err, gs) ->
     if !err
-      user.files.push 
-        fid: fileid
-        name: file.filename
+      user.files.push file.filename
       user.save (err, doc) ->
         cb err
     else
       cb err
 
-exports.read = (fid, cb) ->
-  gs = new GridStore db, fid, 'r'
-  gs.read cb
+exports.read = (username, filename, cb) ->
+  gs = new GridStore db, username+'/'+filename, 'r'
+  gs.open (err, gs) ->
+    gs.read cb

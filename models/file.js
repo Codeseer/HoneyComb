@@ -12,14 +12,14 @@
 
   Server = mongodb.Server;
 
-  db = new mongodb.Db('nodejitsudb324588986231', new mongodb.Server('alex.mongohq.com', 10064), {
+  db = new mongodb.Db('nodejitsudb781130499355', new mongodb.Server('alex.mongohq.com', 10007), {
     safe: true
   });
 
   exports.setupFiles = function() {
     return db.open(function(err, db) {
       if (!err) {
-        return db.authenticate('nodejitsu', '058361c64bc7258c3383439e270402a3', function(err, data) {
+        return db.authenticate('nodejitsu', 'e4f1505e6b587015b660a9b3d4a3364c', function(err, data) {
           if (err) {
             return console.log(err);
           } else {
@@ -33,9 +33,8 @@
   };
 
   exports.upload = function(user, file, cb) {
-    var fileid, gs;
-    fileid = new ObjectID();
-    gs = new GridStore(db, fileid, 'w', {
+    var gs;
+    gs = new GridStore(db, user.username + '/' + file.filename, 'w', {
       'content_type': file.type,
       'metadata': {
         author: user.username
@@ -44,10 +43,7 @@
     });
     return gs.writeFile(file.path, function(err, gs) {
       if (!err) {
-        user.files.push({
-          fid: fileid,
-          name: file.filename
-        });
+        user.files.push(file.filename);
         return user.save(function(err, doc) {
           return cb(err);
         });
@@ -57,10 +53,12 @@
     });
   };
 
-  exports.read = function(fid, cb) {
+  exports.read = function(username, filename, cb) {
     var gs;
-    gs = new GridStore(db, fid, 'r');
-    return gs.read(cb);
+    gs = new GridStore(db, username + '/' + filename, 'r');
+    return gs.open(function(err, gs) {
+      return gs.read(cb);
+    });
   };
 
 }).call(this);

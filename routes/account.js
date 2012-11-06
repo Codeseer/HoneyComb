@@ -6,11 +6,16 @@ module.exports = function(app) {
 
     // user account page
     app.get('/account', function(req, res) {
+      if(req.user){        
         res.render('account/account', { user: req.user });
+      } else {
+        res.redirect('/login');
+      }
     });
 
     // logout
     app.get('/logout', function(req, res) {
+        req.logOut();
         res.redirect('/');
     });
 
@@ -49,7 +54,7 @@ module.exports = function(app) {
                               } 
                               else{                           
                                 res.render('index', {
-                                  message: 'You have been successfully registered, please follow the instructions sent to your email to proceed.'
+                                  message: 'You have been successfully registered, please follow the instructions sent to your email <'+newUser.username+'@spsu.edu> to proceed.'
                                 });                                
                               }
                           });
@@ -63,7 +68,70 @@ module.exports = function(app) {
     });
 
     app.get('/reset/:uvid', function(req, res){
-      
+      res.render('account/reset', {uvid: req.params.uvid});
+    });
+
+    app.post('/reset', function(req, res){
+      if(req.body.uvid != ''){        
+        User.findOne({uvid: req.body.uvid}).exec(function (err, user){
+          if(!err){
+            user.password = req.body.password;
+            user.uvid = '';
+            user.save(function (err){
+              if(!err){
+                res.render('index', {message: 'You have reset your password.'});
+              }
+              else{
+                res.render('index', {message: err});
+              }
+            });
+          } else {
+            res.render('index', {message: 'Verfication ID unknown.'});
+          }
+        });
+      }
+    });
+
+    app.get('/reset', function(req, res){
+      res.render('account/sendreset', {user: req.user});
+    });
+
+    app.post('/resetRequest', function(req, res){
+      if(req.body.username){
+        User.findOne({username: req.body.username}).exec(function (err, user){
+          if(err){
+            res.render('account/sendrequest', {message: err});
+          }
+          else {
+            user.uvid = GUID.token();
+            user.save(function(err){
+              if(err){                
+                res.render('account/sendrequest', {message: err});
+              }else{
+                mailer.mail({
+                              from: "HoneyComb Admin <group5honeycomb@gmail.com>", // sender address
+                              to: user.username+"@spsu.edu", // list of receivers
+                              subject: "Password Reset", // Subject line
+                              text: "Someone has requested a password reset for the HoneyComb account associated with this email. If this was you please go to: http://HoneyComb.jit.su/reset/"+user.uvid // plaintext body
+                          }, function (err, response){
+                              if(err){
+                                res.render('account/sendrequest', {
+                                  message: err
+                                });
+                              } 
+                              else{                           
+                                res.render('index', {
+                                  message: 'Please follow the instructions sent to your email <'+user.username+'@spsu.edu> to reset your password.'
+                                });                                
+                              }
+                          });
+              }
+            });
+          }
+        });
+      }else{
+        res.render('account/sendreset', {message: 'Username required.'});
+      }
     });
 }
 

@@ -19,12 +19,7 @@
       type: String,
       unique: true
     },
-    files: [
-      {
-        fid: ObjectId,
-        filename: String
-      }
-    ]
+    files: [String]
   });
 
   User.methods.validPassword = function(password, done) {

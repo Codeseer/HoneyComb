@@ -11,11 +11,7 @@ User = new Schema
   uvid:
     type: String
     unique: true
-  files: [
-    fid: ObjectId
-    filename: String
-  ]
-
+  files: [String]
 # password validation logic
 User.methods.validPassword = (password, done) ->
   if this.password == password
