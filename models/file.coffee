@@ -4,13 +4,13 @@ GridStore = mongodb.GridStore
 Chunk = mongodb.Chunk
 Server = mongodb.Server
 
-db = new mongodb.Db 'nodejitsudb781130499355',
-  new mongodb.Server('alex.mongohq.com', 10007), safe:true
+db = new mongodb.Db 'honeycomb',
+  new mongodb.Server('ds037817.mongolab.com', 37817), safe:true
 
 exports.setupFiles = () ->
   db.open (err, db) ->
     if !err
-      db.authenticate 'nodejitsu', 'e4f1505e6b587015b660a9b3d4a3364c', (err, data) ->
+      db.authenticate 'admin', 'SPSU2012', (err, data) ->
         if err
           console.log err
         else

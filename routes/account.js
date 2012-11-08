@@ -45,7 +45,7 @@ module.exports = function(app) {
                               from: "HoneyComb Admin <group5honeycomb@gmail.com>", // sender address
                               to: newUser.username+"@spsu.edu", // list of receivers
                               subject: "Account Verification", // Subject line
-                              text: "You just signed up for the HoneyComb. If this was you, please click this link here to set your password: http://HoneyComb.jit.su/reset/"+newUser.uvid // plaintext body
+                              text: "You just signed up for the HoneyComb. If this was you, please click this link here to set your password: http://honeycomb.codeseer.c9.io/reset/"+newUser.uvid // plaintext body
                           }, function (err, response){
                               if(err){
                                 res.render('account/register', {

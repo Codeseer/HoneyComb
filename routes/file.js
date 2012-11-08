@@ -48,7 +48,7 @@
           }
         });
       } else {
-        return res.end("Dude, you don't have access to " + req.user.username + "'s files.");
+        return res.end("Dude, you don't have access to " + req.params.username + "'s files.");
       }
     });
   };

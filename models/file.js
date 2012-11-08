@@ -12,14 +12,14 @@
 
   Server = mongodb.Server;
 
-  db = new mongodb.Db('nodejitsudb781130499355', new mongodb.Server('alex.mongohq.com', 10007), {
+  db = new mongodb.Db('honeycomb', new mongodb.Server('ds037817.mongolab.com', 37817), {
     safe: true
   });
 
   exports.setupFiles = function() {
     return db.open(function(err, db) {
       if (!err) {
-        return db.authenticate('nodejitsu', 'e4f1505e6b587015b660a9b3d4a3364c', function(err, data) {
+        return db.authenticate('admin', 'SPSU2012', function(err, data) {
           if (err) {
             return console.log(err);
           } else {

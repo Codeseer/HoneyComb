@@ -19,7 +19,7 @@ var express = require('express')
 Setup the GridFS database connection
 **/
 require('./models/file').setupFiles();
-mongoose.connect('mongodb://nodejitsu:b690b5ac03dfebf1e03ccdf7e51bd21c@alex.mongohq.com:10064/nodejitsudb826811637779');
+mongoose.connect('mongodb://admin:SPSU2012@ds037817.mongolab.com:37817/honeycomb');
 var app = module.exports = express();
 
 /**
