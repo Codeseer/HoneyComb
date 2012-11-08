@@ -45,7 +45,7 @@ module.exports = function(app) {
                               from: "HoneyComb Admin <group5honeycomb@gmail.com>", // sender address
                               to: newUser.username+"@spsu.edu", // list of receivers
                               subject: "Account Verification", // Subject line
-                              text: "You just signed up for the HoneyComb. If this was you, please click this link here to set your password: http://honeycomb.herokuapp.com//reset/"+newUser.uvid // plaintext body
+                              text: "You just signed up for the HoneyComb. If this was you, please click this link here to set your password: http://honeycomb.herokuapp.com/reset/"+newUser.uvid // plaintext body
                           }, function (err, response){
                               if(err){
                                 res.render('account/register', {
@@ -112,7 +112,7 @@ module.exports = function(app) {
                               from: "HoneyComb Admin <group5honeycomb@gmail.com>", // sender address
                               to: user.username+"@spsu.edu", // list of receivers
                               subject: "Password Reset", // Subject line
-                              text: "Someone has requested a password reset for the HoneyComb account associated with this email. If this was you please go to: http://honeycomb.herokuapp.com//reset/"+user.uvid // plaintext body
+                              text: "Someone has requested a password reset for the HoneyComb account associated with this email. If this was you please go to: http://honeycomb.herokuapp.com/reset/"+user.uvid // plaintext body
                           }, function (err, response){
                               if(err){
                                 res.render('account/sendrequest', {
