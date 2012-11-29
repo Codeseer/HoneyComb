@@ -4,7 +4,7 @@
 * -------------------------------------------------------------------------------------------------
 * include any modules you will use through out the file
 **/
-
+//856463
 var express = require('express')
   , http = require('http')
   , path = require('path')
@@ -62,7 +62,10 @@ passport.use('local', new LocalStrategy(function(username, password, done) {
         message: 'Uknown User'
       });
     } else {
-      user.validPassword(password, done);
+      if (!user.suspend){
+        user.validPassword(password, done);
+      }else
+        done('');
     }
   });
 }));

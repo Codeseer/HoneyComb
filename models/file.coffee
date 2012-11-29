@@ -18,16 +18,28 @@ exports.setupFiles = () ->
     else
       console.log err
 
-exports.upload = (user, file, cb) ->
-  gs = new GridStore db, user.username+'/'+file.filename, 'w',
+exports.upload = (user, folder, file, cb) ->
+  filename = file.filename
+  named = false
+  i = 0
+  while !named
+    if user.files.indexOf(folder+'~'+file.filename) == -1
+      filename = file.filename
+      named = true
+    else
+      if user.files.indexOf(folder+'~'+file.filename+'('+i+')') == -1
+        filename = file.filename+'('+i+')'
+        named = true
+    i++
+  gs = new GridStore db, user.username+'/'+folder+'~'+filename, 'w',
     'content_type': file.type
     'metadata':
       author: user.username
     'chunk_size': 1024*256 #256KB chunk size
   gs.writeFile file.path, (err, gs) ->
     if !err
-      if user.files.indexOf(file.filename) == -1
-        user.files.push file.filename
+      if user.files.indexOf(filename) == -1
+        user.files.push folder+'~'+filename
         user.save (err, doc) ->
           cb err
       else
@@ -42,6 +54,5 @@ exports.read = (username, filename, cb) ->
 
 exports.remove = (username, filename, cb) ->
   gs = new GridStore db, username+'/'+filename, 'r'
-  console.log username+'/'+filename
   gs.open (err, gs) ->
     gs.unlink cb

@@ -5,6 +5,8 @@ block content
         div(class="menu-content-wrapper")
             div(class="menu-left") 
                 form(action="/files", method="post", enctype="multipart/form-data")
+                    label(for="uploadFolder") Folder Name: 
+                    input(type="text", name="uploadFolder")
                     label(for="uploadFile") Choose a file: 
                     input(type="file", name="uploadFile", id="uploadFile")
                     input(type="submit") Upload
@@ -16,10 +18,13 @@ block content
 
     section(class="main-content")
         - if(typeof(user) != 'undefined')
-            ul#files
-            each file in user.files
-                li.file
-                    form(action="/files/"+user.username+"/"+file, method="post")
-                        a(href="/files/"+user.username+"/"+file)=file
-                        input(type="hidden", name="_method", value="delete")
-                        input(type="submit", value="Delete")
+          .folders
+            - for folder in user.folders.folderMap
+              .title=folder
+              .files
+                each file in user.folders.fileMap[user.folders.folderMap.indexOf(folder)]
+                  .file                      
+                    form(action="/files/"+user.username+"/"+folder+'~'+file, method="post")
+                      a(href='/files/'+user.username+"/"+folder+'~'+file)=file
+                      input(type="hidden", name="_method", value="delete")
+                      input(type="submit", value="Delete")

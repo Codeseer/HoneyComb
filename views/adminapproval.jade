@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  section(class="main-content")
+    hgroup(class="title")
+      h2 Pending applications for promotion.
+    - if (typeof(message) != 'undefined')
+        ul#errors
+            li.error= message
+      - if(typeof(users) != 'undefined')
+        each user in users
+          h3=user.username
+          form(method="post", action="/promote")
+            input(type="hidden", name="username", value=user.username)
+            input(type="submit", value="Promote")

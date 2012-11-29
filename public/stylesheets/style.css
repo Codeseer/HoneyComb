@@ -399,3 +399,10 @@ input[type="text"].input-validation-error, input[type="password"].input-validati
   color: #0e2c42;
   padding: 20px 40px 30px 40px;
 }
+
+.folders .title {
+  font-size: 24px;
+}
+.files {
+  margin-left: 40px;
+}

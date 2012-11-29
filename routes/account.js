@@ -1,6 +1,6 @@
-User = require("../models/user").Model;
-GUID = require("../lib/GUID");
-mailer = require("../lib/mailer");
+var User = require("../models/user").Model;
+var GUID = require("../lib/GUID");
+var mailer = require("../lib/mailer");
 
 module.exports = function(app) {
 
@@ -12,6 +12,75 @@ module.exports = function(app) {
         res.redirect('/login');
       }
     });
+    
+    // desire promotion
+    app.get('/dpromotion', function(req, res) {
+      req.user.dpromotion = true;
+      req.user.save(function(err){
+        res.redirect('/account');
+      });      
+    });
+    
+    // promote user
+    app.post('/promote', function(req, res) {
+      var b;
+      b = req.body;
+      if(b.username) {
+        User.findOne({username: b.username}).exec(function(err, user){
+          if(!err){
+            if (user.dpromotion)
+            {
+              user.dpromotion = false;
+              if (user.student)
+              {
+                user.student=false;
+              }
+              else if (!user.admin)
+              {
+                user.admin = true;
+              }
+            }            
+            user.save(function(err){                
+              res.redirect('/adminapproval');
+            });
+          }
+        });
+      }
+    });
+    
+    //view pending promotions
+    app.get('/adminapproval', function(req, res) {
+      if(typeof(req.user) != 'undefined'){
+      if(req.user.admin == true){  
+        User.find({dpromotion: true}).exec(function(err, users) {
+          if(!err){
+            res.locals.users = users
+            res.render('adminapproval');
+          }
+        });        
+      }
+      else{
+        res.redirect('/');
+      }
+      }
+      else
+      {
+        res.redirect('/');
+      }      
+    });
+    
+    // step down
+    app.get('/stepdown', function(req, res) {
+      req.user.dpromotion = false;
+      req.user.admin = false;
+      req.user.student = true;
+      req.user.save(function(err){
+        if (!err){          
+          res.redirect('/account');
+        }
+      });      
+    });
+
 
     // logout
     app.get('/logout', function(req, res) {
@@ -72,11 +141,11 @@ module.exports = function(app) {
     });
 
     app.post('/reset', function(req, res){
-      if(req.body.uvid != ''){        
+      if(req.body.uvid !== ''){        
         User.findOne({uvid: req.body.uvid}).exec(function (err, user){
           if(!err){
             user.password = req.body.password;
-            user.uvid = '';
+            user.uvid = GUID.token();
             user.save(function (err){
               if(!err){
                 res.render('index', {message: 'You have reset your password.'});

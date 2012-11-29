@@ -11,7 +11,7 @@
       if (!req.user) {
         return res.redirect('/login');
       } else if (req.files.uploadFile) {
-        return files.upload(req.user, req.files.uploadFile, function(err) {
+        return files.upload(req.user, req.body.uploadFolder, req.files.uploadFile, function(err) {
           if (!err) {
             return res.redirect('/account');
           } else {
@@ -23,14 +23,20 @@
       }
     });
     app.get('/files/:username/:filename', function(req, res) {
-      if (!req.user) {
-        return res.redirect('/login');
-      } else if (req.user.username === req.params.username) {
+      if (!req.params.filename.match('Public~')) {
+        if (!req.user) {
+          return res.redirect('/login');
+        } else if (req.user.username === req.params.username) {
+          return files.read(req.params.username, req.params.filename, function(err, fileData) {
+            return res.end(fileData, "binary");
+          });
+        } else {
+          return res.end("Dude, you don't have access to " + req.user.username + "'s files.");
+        }
+      } else {
         return files.read(req.params.username, req.params.filename, function(err, fileData) {
           return res.end(fileData, "binary");
         });
-      } else {
-        return res.end("Dude, you don't have access to " + req.user.username + "'s files.");
       }
     });
     return app["delete"]('/files/:username/:filename', function(req, res) {

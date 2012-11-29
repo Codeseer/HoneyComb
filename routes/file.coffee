@@ -6,7 +6,7 @@ module.exports = (app) ->
     if !req.user
       return res.redirect '/login'
     else if req.files.uploadFile      
-      files.upload req.user, req.files.uploadFile, (err) ->
+      files.upload req.user, req.body.uploadFolder, req.files.uploadFile, (err) ->
         if !err
           res.redirect '/account'
         else
@@ -15,13 +15,18 @@ module.exports = (app) ->
       return res.end "you didnt send me a file...."
 
   app.get '/files/:username/:filename', (req, res) ->
-    if !req.user
-      res.redirect('/login');
-    else if req.user.username == req.params.username
-      files.read req.params.username, req.params.filename, (err, fileData) ->
-        res.end(fileData, "binary");
+    if !req.params.filename.match('Public~')
+      if !req.user
+        res.redirect('/login')
+      else if req.user.username == req.params.username
+        files.read req.params.username, req.params.filename, (err, fileData) ->
+          res.end(fileData, "binary")
+      else
+        res.end("Dude, you don't have access to "+req.user.username+"'s files.")
     else
-      res.end("Dude, you don't have access to "+req.user.username+"'s files.");
+      files.read req.params.username, req.params.filename, (err, fileData) ->
+          res.end(fileData, "binary");
+    
 
   app.delete '/files/:username/:filename', (req, res) ->
     if !req.user

@@ -29,7 +29,26 @@ html
                 li Welcome 
                   a(href="/account")!{user.username}
                 li 
-                    a(href="/logout") Logout
+                  a(href="/logout") Logout
+                -if( !user.admin && !user.dpromotion && !user.student)
+                  li
+                    a(href="/dpromotion") Request Admin  -
+                  li
+                    |  Faculty User  
+                -else
+                -if( !user.admin && !user.dpromotion && user.student)
+                  li
+                    a(href="/dpromotion") Request Faculty Promote
+                  li
+                    |  Student User  
+                -else
+                -if( user.admin)
+                  li
+                    |  Admin  
+                  li
+                    a(href="/stepdown") Step Down
+                  li
+                    a(href="/adminapproval") Pending Promotions
           nav
             ul#menu
               li 

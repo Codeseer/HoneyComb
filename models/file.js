@@ -32,9 +32,24 @@
     });
   };
 
-  exports.upload = function(user, file, cb) {
-    var gs;
-    gs = new GridStore(db, user.username + '/' + file.filename, 'w', {
+  exports.upload = function(user, folder, file, cb) {
+    var filename, gs, i, named;
+    filename = file.filename;
+    named = false;
+    i = 0;
+    while (!named) {
+      if (user.files.indexOf(folder + '~' + file.filename) === -1) {
+        filename = file.filename;
+        named = true;
+      } else {
+        if (user.files.indexOf(folder + '~' + file.filename + '(' + i + ')') === -1) {
+          filename = file.filename + '(' + i + ')';
+          named = true;
+        }
+      }
+      i++;
+    }
+    gs = new GridStore(db, user.username + '/' + folder + '~' + filename, 'w', {
       'content_type': file.type,
       'metadata': {
         author: user.username
@@ -43,8 +58,8 @@
     });
     return gs.writeFile(file.path, function(err, gs) {
       if (!err) {
-        if (user.files.indexOf(file.filename) === -1) {
-          user.files.push(file.filename);
+        if (user.files.indexOf(filename) === -1) {
+          user.files.push(folder + '~' + filename);
           return user.save(function(err, doc) {
             return cb(err);
           });
@@ -68,7 +83,6 @@
   exports.remove = function(username, filename, cb) {
     var gs;
     gs = new GridStore(db, username + '/' + filename, 'r');
-    console.log(username + '/' + filename);
     return gs.open(function(err, gs) {
       return gs.unlink(cb);
     });
